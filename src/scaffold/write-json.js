@@ -1,0 +1,45 @@
+var fs = require('fs'),
+	fetch = require('node-fetch');
+
+/**
+ * Writes generated JSON into file.
+ * @param dbName {String} Name of the file to create.
+ * @param scheme {Object} Populated object of collections.
+ * @return {Promise}
+ */
+module.exports = function(dbName, schema) {
+
+	var baseUrl = 'http://www.filltext.com/?',
+		promises = [],
+		collection;
+
+	for (collection in schema) {
+
+		var meta = schema[collection].meta,
+			fields = meta.fields,
+			url;
+
+		url = Object.keys(fields).map(function(key) {
+			return key + '={' + fields[key] + '}';
+		}).join('&') + '&rows=' + meta.rows;
+
+		console.log('Url for', collection, url);
+
+		(function(c) {
+			promises.push(fetch(baseUrl + url).then(function(response) {
+				return response.json();
+			})
+			.then(function(rows) {
+				schema[c] = rows;
+			}));
+		})(collection);
+	}
+
+	return Promise.all(promises).then(function(data) {
+		fs.writeFile(dbName, JSON.stringify(schema, null, 4), function(err) {
+			if (err) {
+				Promise.reject('Failed to save JSON file: ' + err);
+			}
+		});
+	});
+};

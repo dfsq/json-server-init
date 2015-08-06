@@ -1,0 +1,43 @@
+{
+  "name": "json-server-init",
+  "version": "0.1.0",
+  "description": "Usefull addition to json-server to generate db.json database scheme with random records.",
+  "main": "./index.js",
+  "bin": "./bin/index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha -R spec test/**/*.spec.js",
+    "start": "node bin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dfsq/json-server-init.git"
+  },
+  "keywords": [
+    "JSON",
+    "server",
+    "json-server",
+    "scaffold",
+    "generate",
+    "scheme",
+    "filltext"
+  ],
+  "author": "Aliaksandr Astashenkau <dfsq.dfsq@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dfsq/json-server-init/issues"
+  },
+  "homepage": "https://github.com/dfsq/json-server-init",
+  "dependencies": {
+    "node-fetch": "^1.3.2",
+    "promise": "^7.0.4",
+    "prompt": "^0.2.14",
+    "yargs": "^3.17.1"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5",
+    "nock": "^2.10.0",
+    "proxyquire": "^1.6.0",
+    "sinon": "^1.15.4"
+  }
+}
