@@ -8,26 +8,26 @@ var proxyquire =  require('proxyquire'),
 
 describe('Add another collection', function() {
 
-	var scheme,
-		promise, promiseStatus;
+	var scheme;
 
 	beforeEach(function() {
 		scheme = {};
 	});
 
-	it('should resolve promise (proceed to new collection dialog) if "y" was entered', function(done) {
-
-		promptMock.__respondWith('y');
-		promptMock.__enterCallback(function() {
-			expect(promiseStatus).to.be.true;
-			done();
-		});
-
-		// TODO: chai-as-promise?
-		promise = addAnother(scheme).then(function() {
-			promiseStatus = true;
-		}, function() {
-			promiseStatus = false;
+	it('should resolve promise (proceed to new collection dialog) if "y" was entered', function() {
+		promptMock.__prepareInput({another: 'y'});
+		return addAnother(scheme).then(function(response) {
+			expect(response).to.be.equal(scheme);
 		});
 	});
+
+	it('should reject promise if "n" was entered', function() {
+		promptMock.__prepareInput({another: 'n'});
+		return addAnother(scheme).then(function() {
+			throw new Error('unexpected fulfillment');
+		}, function(response) {
+			expect(response).to.be.equal(scheme);
+		});
+	});
+
 });

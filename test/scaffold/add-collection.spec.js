@@ -4,42 +4,29 @@ var proxyquire =  require('proxyquire'),
 	promptMock = require('../mocks/prompt.mock'),
 	addCollection = proxyquire('../../src/scaffold/add-collection', {
 		prompt: promptMock
-	}),
-	input = {
-		collection: 'testing',
-		fields: 'id:index, timestamp:time, status:boolean'
-	};
+	});
 
 describe('Add collection and fields', function() {
 
 	var scheme;
 
 	beforeEach(function() {
-
 		scheme = {};
-
-		promptMock.get = function(config, callback) {
-
-			var key = Object.keys(config.properties)[0],
-	 			response = {};
-
-	 		response[key] = input[key];
-
-	 		setTimeout(function() {
-	 			callback(null, response);
-	 		}, 500);
-	 	};
 	});
 
-	it('should ask for collection name and default to 5 rows', function(done) {
+	it('should ask for collection name and default to 5 rows', function() {
 
-		addCollection(scheme).then(function() {
+		promptMock.__prepareInput({
+			collection: 'testing',
+			fields: 'id:index, timestamp:time, status:boolean'
+		});
+
+		return addCollection(scheme).then(function(response) {
 
 			var expected = {testing: []};
 			expected.testing.meta = {fields: {id: 'index', timestamp: 'time', status: 'boolean'}, rows: 5};
 
-			expect(scheme).to.deep.equal(expected);
-			done();
-		});
+			expect(response).to.deep.equal(expected);
+		})
 	});
 });
