@@ -17,7 +17,7 @@ describe('CLI options dispatching', function() {
 
 	it('should proceed to collection module for -c, --collection option', function() {
 		var stub = mocks['./collection'];
-		cli({c: 'posts'});
-		expect(stub.called).to.be.true;
+		cli({c: 'posts 5'});
+		expect(stub.calledWith('posts 5')).to.be.true;
 	});
 });
