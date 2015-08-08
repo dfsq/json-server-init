@@ -1,36 +1,44 @@
 var prompt = require('prompt'),
-	Promise = require('promise');
+    Promise = require('promise');
 
 /**
- * Prompt to ask if another collection should be added to scheme.
+ * Prompt to ask if another collection should be added to schema.
  * @return {Promise}
  */
-module.exports = function(schema) {
+function addAnother(schema) {
 
-	var config = {
-		properties: {
-			another: {
-				description: 'Add another collection? (y/n)'.magenta
-			}
-		}
-	};
+    var config = {
+        properties: {
+            another: {
+                description: 'Add another collection? (y/n)'.magenta
+            }
+        }
+    };
 
-	prompt.start();
-	prompt.message = ' > ';
-	prompt.delimiter = '';
+    prompt.start();
+    prompt.message = ' > ';
+    prompt.delimiter = '';
 
-	return new Promise(function(resolve, reject) {
-		prompt.get(config, function(err, result) {
+    return new Promise(function(resolve, reject) {
+        prompt.get(config, function(err, result) {
 
-			if (err) return reject(err);
+            if (err) return reject(err);
 
-			switch(result.another.toLowerCase()) {
-				case 'y':
-					return resolve(schema);
-				case 'n':
-				default:
-					return reject(schema);
-			}
-		});
-	});
-};
+            switch (result.another.toLowerCase()) {
+                case 'n':
+                    return resolve({
+                        answer: false,
+                        schema: schema
+                    });
+                case 'y':
+                default:
+                    return resolve({
+                        answer: true,
+                        schema: schema
+                    });
+            }
+        });
+    });
+}
+
+module.exports = addAnother;

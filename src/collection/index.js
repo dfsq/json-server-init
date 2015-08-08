@@ -1,3 +1,3 @@
 module.exports = function(collectionName) {
-	console.log('Add new collection', collectionName);
+    console.log('TODO: Add new collection "%s"', collectionName);
 };

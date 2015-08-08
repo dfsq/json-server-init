@@ -1,7 +1,7 @@
 {
   "name": "json-server-init",
-  "version": "0.1.1",
-  "description": "Usefull addition to json-server to generate db.json database scheme with random records.",
+  "version": "0.1.2",
+  "description": "Usefull addition to json-server to generate db.json database schema with random records.",
   "main": "./index.js",
   "bin": "./bin/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "json-server",
     "scaffold",
     "generate",
-    "scheme",
+    "schema",
     "filltext"
   ],
   "author": "Aliaksandr Astashenkau <dfsq.dfsq@gmail.com>",

@@ -1,6 +1,5 @@
 var proxyquire =  require('proxyquire'),
 	expect = require('chai').expect,
-	sinon = require('sinon'),
 	promptMock = require('../mocks/prompt.mock'),
 	addAnother = proxyquire('../../src/scaffold/add-another', {
 		prompt: promptMock
@@ -8,25 +7,25 @@ var proxyquire =  require('proxyquire'),
 
 describe('Add another collection', function() {
 
-	var scheme;
+	var schema;
 
 	beforeEach(function() {
-		scheme = {};
+		schema = {};
 	});
 
-	it('should resolve promise (proceed to new collection dialog) if "y" was entered', function() {
+	it('should resolve promise with answer "true" if "y" was entered', function() {
 		promptMock.__prepareInput({another: 'y'});
-		return addAnother(scheme).then(function(response) {
-			expect(response).to.be.equal(scheme);
+		return addAnother(schema).then(function(response) {
+            expect(response.answer).to.be.true;
+            expect(response.schema).to.be.equal(schema);
 		});
 	});
 
-	it('should reject promise if "n" was entered', function() {
+	it('should resolve promise with answer "false" if "n" was entered', function() {
 		promptMock.__prepareInput({another: 'n'});
-		return addAnother(scheme).then(function() {
-			throw new Error('unexpected fulfillment');
-		}, function(response) {
-			expect(response).to.be.equal(scheme);
+		return addAnother(schema).then(function(response) {
+            expect(response.answer).to.be.false;
+			expect(response.schema).to.be.equal(schema);
 		});
 	});
 

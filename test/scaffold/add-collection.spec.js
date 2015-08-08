@@ -1,6 +1,5 @@
 var proxyquire =  require('proxyquire'),
 	expect = require("chai").expect,
-	sinon = require('sinon'),
 	promptMock = require('../mocks/prompt.mock'),
 	addCollection = proxyquire('../../src/scaffold/add-collection', {
 		prompt: promptMock
@@ -8,10 +7,10 @@ var proxyquire =  require('proxyquire'),
 
 describe('Add collection and fields', function() {
 
-	var scheme;
+	var schema;
 
 	beforeEach(function() {
-		scheme = {};
+		schema = {};
 	});
 
 	it('should ask for collection name and default to 5 rows', function() {
@@ -21,7 +20,7 @@ describe('Add collection and fields', function() {
 			fields: 'id:index, timestamp:time, status:boolean'
 		});
 
-		return addCollection(scheme).then(function(response) {
+		return addCollection(schema).then(function(response) {
 
 			var expected = {testing: []};
 			expected.testing.meta = {fields: {id: 'index', timestamp: 'time', status: 'boolean'}, rows: 5};

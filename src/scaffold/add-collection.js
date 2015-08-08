@@ -1,6 +1,7 @@
 var prompt = require('prompt'),
-	Promise = require('promise'),
-	DEFAULT_ROWS = 5;
+    Promise = require('promise'),
+    DEFAULT_ROWS = 5,
+    FIELDS_REGEXP = /(\w+:(?:[\w|]|(?:,(?!\s)))+)/g;
 
 /**
  * Prompt for collection name.
@@ -8,26 +9,26 @@ var prompt = require('prompt'),
  */
 function getCollection() {
 
-	var config = {
-		properties: {
-			collection: {
-				description: 'Collection name and number of rows, 5 if omited (ex: posts 10): '.magenta,
-				type: 'string',
-				required: true
-			}
-		}
-	};
+    var config = {
+        properties: {
+            collection: {
+                description: 'Collection name and number of rows, 5 if omited (ex: posts 10): '.magenta,
+                type: 'string',
+                required: true
+            }
+        }
+    };
 
-	prompt.start();
-	prompt.message = ' > ';
-	prompt.delimiter = '';
+    prompt.start();
+    prompt.message = ' > ';
+    prompt.delimiter = '';
 
-	return new Promise(function(resolve, reject) {
-		prompt.get(config, function(err, result) {
-			if (err) return reject(err);
-			return resolve(result.collection);
-		});
-	});
+    return new Promise(function(resolve, reject) {
+        prompt.get(config, function(err, result) {
+            if (err) return reject(err);
+            return resolve(result.collection);
+        });
+    });
 }
 
 /**
@@ -36,61 +37,62 @@ function getCollection() {
  */
 function getFields(collection) {
 
-	var message = 'What fields should "' + collection + '" have?\n',
-		config;
+    var message = 'What fields should "' + collection + '" have?\n',
+        config;
 
-	config = {
-		properties: {
-			fields: {
-				description:
-					message.magenta +
-					'   Comma-separated pairs fieldname:fieldtype (ex: id:number, username:username)\n'.grey,
-				type: 'string',
-				required: true,
-				pattern: /(\w+:\w+)/
-			}
-		}
-	};
+    config = {
+        properties: {
+            fields: {
+                description: message.magenta +
+                '   Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username, age:numberRange|18,60)\n'.grey,
+                type: 'string',
+                required: true,
+                pattern: FIELDS_REGEXP
+            }
+        }
+    };
 
-	prompt.start();
-	prompt.message = '   >> ';
-	prompt.delimiter = '';
+    prompt.start();
+    prompt.message = '   >> ';
+    prompt.delimiter = '';
 
-	return new Promise(function(resolve, reject) {
-		prompt.get(config, function(err, result) {
-			if (err) return reject(err);
-			return resolve(result.fields);
-		});
-	})
-	.then(function(input) {
-		return (input.match(/(\w+:\w+)/g) || []).reduce(function(prev, curr) {
-			var parts = curr.split(':');
-			prev[parts[0]] = parts[1];
-			return prev;
-		}, {});
-	});
+    return new Promise(function(resolve, reject) {
+        prompt.get(config, function(err, result) {
+            if (err) return reject(err);
+            return resolve(result.fields);
+        });
+    }).then(function(input) {
+        return (input.match(FIELDS_REGEXP) || []).reduce(function(prev, curr) {
+            var parts = curr.split(':');
+            prev[parts[0]] = parts[1];
+            return prev;
+        }, {});
+    });
 }
 
 /**
  * Prompt to enter collection name (and optionaly number of words).
+ * @param {Object} schema
  * @return {Promise}
  */
-module.exports = function(schema) {
+function addCollection(schema) {
 
-	return getCollection().then(function(nameRows) {
+    return getCollection().then(function(nameRows) {
 
-		var info = nameRows.trim().split(/\s+/),
-			name = info[0],
-			rows = info[1] || DEFAULT_ROWS;
+        var info = nameRows.trim().split(/\s+/),
+            name = info[0],
+            rows = info[1] || DEFAULT_ROWS;
 
-		schema[name] = [];
+        schema[name] = [];
 
-		return getFields(name).then(function(fields) {
-			schema[name].meta = {
-				fields: fields,
-				rows: rows
-			};
-			return schema;
-		});
-	});
-};
+        return getFields(name).then(function(fields) {
+            schema[name].meta = {
+                fields: fields,
+                rows: rows
+            };
+            return schema;
+        });
+    });
+}
+
+module.exports = addCollection;

@@ -15,7 +15,7 @@ Possible options are:
 - **-s, --scaffold** [default: db.json]- Create JSON database with specified name. Default name if not provided is "db.json"
 - **-h, --help** - Show help.
 
-For example, to create "dev.json" scheme file:
+For example, to create "dev.json" schema file:
 
 ```
 $ json-server-init -s dev.json
@@ -71,12 +71,12 @@ If "y" is entered flow repeats "Collection prompt" step, otherwise it fetches JS
 
 ```
 $ json-server-init -s
-> Collection name and number of rows, 5 if omited (ex: posts 10):  users 6
+> Collection name and number of rows, 5 if omited (ex: posts 10):  users 2
 >> What fields should "users" have?
-   Comma-separated pairs fieldname:fieldtype (ex: id:number, username:username)
-id:index, username:username, age:number, name:firstName
+   Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username, age:numberRange|18,60)
+ id:index, username:username, motto:lorem|5
 > Add another collection? (y/n) n
-Scheme saved to db.json
+db.json saved.
 ```
 
 Above will produce db.json file with content similar to
@@ -86,11 +86,13 @@ Above will produce db.json file with content similar to
     "users": [
         {
             "id": 1,
-            "username": "VMel"
+            "username": "RGershowitz",
+            "motto": "curabitur et magna placerat tellus"
         },
         {
             "id": 2,
-            "username": "GSchwartzberg"
+            "username": "NMuroski",
+            "motto": "ante nullam dolor sit placerat"
         }
     ]
 }
@@ -104,7 +106,7 @@ $ json-server --watch db.json
 
 ## License
 
-MIT
+[MIT License](http://opensource.org/licenses/mit-license.php)  © Aliaksandr Astashenkau
 
 
 [1]: https://github.com/typicode/json-server
