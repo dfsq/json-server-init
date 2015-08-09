@@ -8,20 +8,28 @@ Generate JSON database for [JSON server][1] using [Filltext.com][2] as random JS
 $ npm install -g json-server-init
 ```
 
+## Commands
+
+- [**create**](#create) - Create new JSON database.
+- [**collection**](#collection) - Add new collection to existent database file (todo).
+
 ## Options
 
 Possible options are:
 
-- **-s, --scaffold** [default: db.json]- Create JSON database with specified name. Default name if not provided is "db.json"
-- **-h, --help** - Show help.
+- **--name, -n** - Name of the database JSON file to create (in case of create command) or use (collection command). Default name if not provided is "db.json".
+- **--help, -h** - Show help.
+- **--version, -v** - Show version number.
 
 For example, to create "dev.json" schema file:
 
-```
-$ json-server-init -s dev.json
+```bash
+$ json-server-init create -n dev.json
 ```
 
-### -s, --scaffold
+## Commands overview
+
+### create
 
 Command produces several prompts.
 
@@ -41,7 +49,7 @@ After collection name is entered one would need to configure what fields collect
 
 ```
 >> What fields should "users" have?
-   Comma-separated pairs fieldname:fieldtype (ex: id:number, username:username)
+   Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username)
 ```
 
 Entry should have specific format: fieldname:fieldtype.
@@ -49,12 +57,12 @@ Entry should have specific format: fieldname:fieldtype.
 - **fieldname** - name of the field, only alpha-numeric characters.
 - **fieldtype** - type of the data. Corresponds to types [filltext][2] generator uses for fields, refere entire [list][2] for possible values.
 
-For example, to generate users collection with three fields: id, fname and age, one would enter this command:
+For example, to generate users collection with three fields: id, username and age, one could enter this command:
 
 ```
 >> What fields should "users" have?
-   Comma-separated pairs fieldname:fieldtype (ex: id:number, username:username)
-id:index, fname:firsrName, age:number
+   Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username)
+id:index, fname:firsrName, age:numberRange|18,80
 ```
 
 #### Add another
@@ -67,13 +75,19 @@ You can add as many collections as necessary, after fields prompt there is a con
 
 If "y" is entered flow repeats "Collection prompt" step, otherwise it fetches JSON data and saves it to the file.
 
+### collection
+
+TODO...
+
 ## Example
 
-```
-$ json-server-init -s
+Here is how typical workflow looks with create command:
+
+```bash
+$ json-server-init create
 > Collection name and number of rows, 5 if omited (ex: posts 10):  users 2
 >> What fields should "users" have?
-   Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username, age:numberRange|18,60)
+   Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username)
  id:index, username:username, motto:lorem|5
 > Add another collection? (y/n) n
 db.json saved.

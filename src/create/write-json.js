@@ -29,13 +29,13 @@ function writeJSON(dbName, schema) {
             promises.push(fetch(baseUrl + url).then(function(response) {
                 return response.json();
             })
-                .then(function(rows) {
-                    schema[c] = rows;
-                }));
+            .then(function(rows) {
+                schema[c] = rows;
+            }));
         })(collection);
     }
 
-    return Promise.all(promises).then(function(data) {
+    return Promise.all(promises).then(function() {
         fs.writeFile(dbName, JSON.stringify(schema, null, 4), function(err) {
             if (err) {
                 Promise.reject('Failed to save JSON file: ' + err);

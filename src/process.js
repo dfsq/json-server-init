@@ -1,15 +1,18 @@
 /**
  * Dispatch argumenst.
  */
-module.exports = function(args) {
+module.exports = function(command, args) {
 
-    // Scaffold option, default
-    if (args.s) {
-        require('./scaffold')(args.s);
-    }
-    // Add new collection
-    else if (args.c) {
-        require('./collection')(args.c);
+    switch(command) {
+
+        case 'create':
+        default:
+            require('./create')(args.n);
+            break;
+
+        case 'collection':
+            require('./collection')(args.n);
+            break;
     }
 
 };

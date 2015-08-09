@@ -1,7 +1,7 @@
 var proxyquire =  require('proxyquire'),
 	expect = require("chai").expect,
 	promptMock = require('../mocks/prompt.mock'),
-	addCollection = proxyquire('../../src/scaffold/add-collection', {
+	addCollection = proxyquire('../../src/create/add-collection', {
 		prompt: promptMock
 	});
 

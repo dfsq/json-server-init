@@ -44,7 +44,7 @@ function getFields(collection) {
         properties: {
             fields: {
                 description: message.magenta +
-                '   Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username, age:numberRange|18,60)\n'.grey,
+                '   Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username)\n'.grey,
                 type: 'string',
                 required: true,
                 pattern: FIELDS_REGEXP
