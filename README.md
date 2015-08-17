@@ -38,7 +38,7 @@ Command produces several prompts.
 Prompt for collection name and number of rows render something like this:
 
 ```
-> Collection name and number of rows, 5 if omited (ex: posts 10):
+> Collection name and number of rows, 5 if omitted (ex: posts 10):
 ```
 
 Valid input would be a new collection name with optional number separated by space indicating how many rows to generate for this collection. For example, `users 10` will generate collection "users" with 10 records in it, `sesstions` will result into collection "sessions" with default 5 records, etc.
@@ -85,7 +85,7 @@ Here is how typical workflow looks with create command:
 
 ```bash
 $ json-server-init create
-> Collection name and number of rows, 5 if omited (ex: posts 10):  users 2
+> Collection name and number of rows, 5 if omitted (ex: posts 10):  users 2
 >> What fields should "users" have?
    Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username)
  id:index, username:username, motto:lorem|5

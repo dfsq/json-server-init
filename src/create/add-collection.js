@@ -12,7 +12,7 @@ function getCollection() {
     var config = {
         properties: {
             collection: {
-                description: 'Collection name and number of rows, 5 if omited (ex: posts 10): '.magenta,
+                description: 'Collection name and number of rows, 5 if omitted (ex: posts 10): '.magenta,
                 type: 'string',
                 required: true
             }
