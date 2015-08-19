@@ -17,7 +17,7 @@ $ npm install -g json-server-init
 
 Possible options are:
 
-- **--name, -n** - Name of the database JSON file to create (in case of create command) or use (collection command). Default name if not provided is "db.json".
+- **--name, -n** - Specify name of the database JSON file to create (in case of create command) or use (collection command). Default name if not provided is "db.json".
 - **--help, -h** - Show help.
 - **--version, -v** - Show version number.
 
@@ -35,13 +35,13 @@ Command produces several prompts.
 
 #### Collection prompt
 
-Prompt for collection name and number of rows render something like this:
+Prompt for collection name and number of rows renders something like this:
 
 ```
 > Collection name and number of rows, 5 if omitted (ex: posts 10):
 ```
 
-Valid input would be a new collection name with optional number separated by space indicating how many rows to generate for this collection. For example, `users 10` will generate collection "users" with 10 records in it, `sesstions` will result into collection "sessions" with default 5 records, etc.
+Valid input would be a new collection name with optional number separated by space indicating how many rows should be generated for this collection. For example, `users 10` will generate collection "users" with 10 records in it, `sessions` will result into collection "sessions" with default 5 records, etc.
 
 #### Fields prompt
 
@@ -52,22 +52,22 @@ After collection name is entered one would need to configure what fields collect
    Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username)
 ```
 
-Entry should have specific format: fieldname:fieldtype.
+Entry must have specific format: `fieldname:fieldtype`.
 
 - **fieldname** - name of the field, only alpha-numeric characters.
-- **fieldtype** - type of the data. Corresponds to types [filltext][2] generator uses for fields, refere entire [list][2] for possible values.
+- **fieldtype** - type of the data. Corresponds to types [filltext][2] generator uses for fields, refer entire [list][2] for possible values. Multiple fields concatenation is possible with `+` operator.
 
-For example, to generate users collection with three fields: id, username and age, one could enter this command:
+For example, to generate `users` collection with four fields: id, username, name and age, one could enter this command:
 
 ```
 >> What fields should "users" have?
    Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username)
-id:index, fname:firsrName, age:numberRange|18,80
+id:index, username:username, name:firstName+lastName, age:numberRange|18,80
 ```
 
 #### Add another
 
-You can add as many collections as necessary, after fields prompt there is a confirmation if more collections needs to be created:
+You can add as many collections as necessary: after fields prompt there is a confirmation if more collections need to be created:
 
 ```
 > Add another collection? (y/n) n
@@ -81,11 +81,11 @@ TODO...
 
 ## Example
 
-Here is how typical workflow looks with create command:
+Here is how typical workflow looks like with `create` command:
 
 ```bash
 $ json-server-init create
-> Collection name and number of rows, 5 if omitted (ex: posts 10):  users 2
+> Collection name and number of rows, 5 if omitted (ex: posts 10): users 2
 >> What fields should "users" have?
    Comma-separated fieldname:fieldtype pairs (ex: id:index, username:username)
  id:index, username:username, motto:lorem|5
@@ -93,7 +93,7 @@ $ json-server-init create
 db.json saved.
 ```
 
-Above will produce db.json file with content similar to
+Above will produce db.json file with content similar to this:
 
 ```json
 {

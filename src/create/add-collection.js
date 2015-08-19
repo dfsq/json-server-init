@@ -1,7 +1,7 @@
 var prompt = require('prompt'),
     Promise = require('promise'),
     DEFAULT_ROWS = 5,
-    FIELDS_REGEXP = /(\w+:(?:[\w|]|(?:,(?!\s)))+)/g;
+    FIELDS_REGEXP = /(\w+:(?:[\w.|\[\]\+]|(?:,(?!\s))|(?:,\s*\w*?\]))+)/g;
 
 /**
  * Prompt for collection name.
@@ -64,7 +64,7 @@ function getFields(collection) {
     }).then(function(input) {
         return (input.match(FIELDS_REGEXP) || []).reduce(function(prev, curr) {
             var parts = curr.split(':');
-            prev[parts[0]] = parts[1];
+            prev[parts[0]] = parts[1].replace(/\+/g, '}~{'); // with "+" also support name={fistName}~{lastName} concatenations
             return prev;
         }, {});
     });
