@@ -5,27 +5,45 @@ var proxyquire =  require('proxyquire'),
 		prompt: promptMock
 	});
 
+function prepareInput(fields) {
+    promptMock.__prepareInput({
+        collection: 'testing',
+        fields: fields
+    });
+}
+
+function getExpected(fields) {
+    var expected = {testing: []};
+    expected.testing.meta = {fields: fields, rows: 5};
+    return expected;
+}
+
 describe('Add collection and fields', function() {
 
-	var schema;
-
-	beforeEach(function() {
-		schema = {};
-	});
-
 	it('should ask for collection name and default to 5 rows', function() {
-
-		promptMock.__prepareInput({
-			collection: 'testing',
-			fields: 'id:index, timestamp:time, status:boolean'
-		});
-
-		return addCollection(schema).then(function(response) {
-
-			var expected = {testing: []};
-			expected.testing.meta = {fields: {id: 'index', timestamp: 'time', status: 'boolean'}, rows: 5};
-
+        prepareInput('id:index');
+		return addCollection({}).then(function(response) {
+            var expected = getExpected({id: 'index'});
 			expect(response).to.deep.equal(expected);
-		})
+		});
 	});
+
+    describe('Parse fields input', function() {
+
+        it('should support brackets for options', function() {
+            prepareInput('id:index, sex:["Male", "Female"], name:firstName');
+            return addCollection({}).then(function(response) {
+                var expected = getExpected({id: 'index', sex: '["Male", "Female"]', name: 'firstName'});
+                expect(response).to.deep.equal(expected);
+            });
+        });
+
+    it('should support ~ concatenation sign', function() {
+            prepareInput('id:index, name:firstName+lastName, age:number');
+            return addCollection({}).then(function(response) {
+                var expected = getExpected({id: 'index', name: 'firstName}~{lastName', age: 'number'});
+                expect(response).to.deep.equal(expected);
+            });
+        });
+    });
 });

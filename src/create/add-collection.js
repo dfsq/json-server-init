@@ -1,7 +1,7 @@
 var prompt = require('prompt'),
     Promise = require('promise'),
     DEFAULT_ROWS = 5,
-    FIELDS_REGEXP = /(\w+:(?:[\w.|\[\]\+]|(?:,(?!\s))|(?:,\s*\w*?\]))+)/g;
+    FIELDS_REGEXP = /(\w+:(?:[\w.|\+]|(?:,(?!\s)|(?:\[["\w,\s]+\]))|(?:\[.*?\])|(?:,\s*\w*?\]))+)/g;
 
 /**
  * Prompt for collection name.

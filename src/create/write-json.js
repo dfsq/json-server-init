@@ -20,6 +20,9 @@ function writeJSON(dbName, schema) {
             url;
 
         url = Object.keys(fields).map(function(key) {
+            if (fields[key][0] === '[' && fields[key].slice(-1) === ']') {
+                return key + '=' + fields[key];
+            }
             return key + '={' + fields[key] + '}';
         }).join('&') + '&rows=' + meta.rows;
 
