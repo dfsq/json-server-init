@@ -1,8 +1,10 @@
 var fs = require('fs'),
-    Promise = require('Promise'),
+    Promise = require('promise'),
     fetch = require('node-fetch');
 
-fetch.Promise = Promise;
+if (!fetch.Promise) {
+    fetch.Promise = Promise;
+}
 
 /**
  * Writes generated JSON into file.
