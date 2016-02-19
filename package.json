@@ -1,6 +1,6 @@
 {
   "name": "json-server-init",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Usefull addition to json-server to generate db.json database schema with random records.",
   "main": "./index.js",
   "bin": "./bin/index.js",
